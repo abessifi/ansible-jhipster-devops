@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: cip-vm
   sudo: true
   tasks:
     - name: Create ext3 filesystem on /dev/sdb
