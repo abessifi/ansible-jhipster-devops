@@ -1,0 +1,39 @@
+---
+# Notes :
+# It is possible to use cspicer.ansible-docker ansible role to install Docker on Debian Jessie
+# via the official Docker Ubuntu apt repository.
+
+# docker-py doesn't autodetect the api version of the server it's connecting to and adjust 
+# itself accordingly. For people running ansible this means that you could have a mismatch 
+# between docker-py and the docker server where docker-py's default ApiVersion is different
+# than the docker server's ApiVersion. Specifying 'docker_api_version' for your task fix things.
+
+- name: Add Docker repository and update apt cache
+  apt_repository:
+    repo: "deb http://ftp.us.debian.org/debian/ jessie-backports main"
+    update_cache: yes
+
+- name: Install docker.io package
+  apt: name=docker.io=1.6.2~dfsg1-1~bpo8+1 state=present
+
+- name: Make sure docker is running
+  service:
+    name: docker
+    state: started
+
+# You can add users to the docker group to allow them to manage docker containers.
+- name: Add vagrant user to docker group
+  user: name=vagrant groups=docker append=yes
+
+- name: Install pip
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+  with_items:
+    - python-dev
+    - python-pip
+
+# Use easy_install to install pip instead of installling python-pip package which seems to be buggy.
+# On Debian Jessie (stable distro now) python-pip=1.5.6-5 pip throws errors.
+- name: Install Docker-py
+  command: easy_install pip

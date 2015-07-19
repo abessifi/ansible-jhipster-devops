@@ -1,0 +1,9 @@
+---
+# TODO: pull the mongodb image from the local docker-registry
+
+- name: Deploy a mongodb container
+  docker:
+    docker_api_version: 1.18
+    name: mongodb-dev
+    image: mongo:3.0
+    state: started

@@ -3,6 +3,7 @@
 
 DOMAIN = 'local'
 CIP_NODE_IP = '192.168.33.40'
+JH_DEV_NODE_IP = '192.168.33.41'
 CIP_DATA_DISK = './.vagrant/machines/cip-vm/cip_data_disk.vdi'
 
 VAGRANTFILE_API_VERSION = "2"
@@ -43,6 +44,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # Setup a Jhipster Development environement
+  config.vm.define "jhipster-dev" do |cfg|
+    cfg.vm.hostname = "jhipster-dev.#{DOMAIN}"
+    cfg.vm.network "private_network", ip: JH_DEV_NODE_IP
+    cfg.hostmanager.aliases = "jhipster-dev"
+    cfg.vm.provider "virtualbox" do |v|
+      v.name = 'jhipster-dev'
+      v.memory = 768
+	  end
+  	cfg.vm.provision :ansible do |ansible|
+      ansible.playbook = 'provisioning/jhipster-dev/setup.yml'
+    end
+  end
 
   # Setup a Jhipster QA environement
 
