@@ -6,3 +6,5 @@
       filesystem: fstype=ext3 dev=/dev/sdb
     - name: Mount /dev/sdb
       mount: name=/data src=/dev/sdb fstype=ext3 state=mounted
+    - include: docker.yml
+    - include: gitlab.yml
