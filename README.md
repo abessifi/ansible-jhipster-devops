@@ -2,7 +2,6 @@
 A sample jhipster project managed by Vagrant and Ansible within a complete continuous delivery process.
 
 
-
 ## Getting started
 
 This README file is inside a folder that contains a Vagrantfile (hereafter this folder shall be called the `vagrant_root`), which tells Vagrant how to set up your Continuous Delivery Platform.
@@ -12,7 +11,7 @@ To use the vagrant file, you will need to have done the following:
   1. Download and Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
   2. Download and Install [Vagrant](https://www.vagrantup.com/downloads.html).
   4. Install the vagrant [hostmanager](https://github.com/smdahlen/vagrant-hostmanager) plugin: `$ vagrant plugin install hostmanager`.
-  4. Install [Ansible](http://docs.ansible.com/intro_installation.html).
+  4. Install [Ansible](http://docs.ansible.com/intro_installation.html) **version >= 1.8**.
   5. Open a shell prompt and cd into the folder containing the `Vagrantfile`.
 
 Once all of that is done, you can simply type in `vagrant up`, and Vagrant will create all the VMs, and configure them.

@@ -1,0 +1,15 @@
+- name: Create necessary directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "/data/docker/gitlab/postgresql"
+    - "/data/docker/gitlab/gitlab"
+    - "/data/docker/gitlab/redis"
+
+- name: Install Docker-compose
+  shell: pip install -U docker-compose
+
+- name: Deploy GitLab container using docker-compose.yml.
+  shell: docker-compose up &
+
