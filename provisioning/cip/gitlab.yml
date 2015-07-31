@@ -1,0 +1,17 @@
+- name: Create necessary directories
+  file: path={{ item }} owner=vagrant group=vagrant state=directory
+  with_items:
+    - "/data/docker/gitlab/postgresql"
+    - "/data/docker/gitlab/gitlab"
+    - "/data/docker/gitlab/redis"
+    - "/home/vagrant/gitlab"
+
+- name: Install Docker-compose
+  pip: name=docker-compose version={{ docker_compose_version }}
+
+- name: Copy the docker-compose.yml file
+  copy: src=docker-compose.yml dest={{ gitlab_docker_compose_remote_location }} owner=vagrant group=vagrant
+
+- name: Deploy GitLab containers using docker-compose
+  shell: docker-compose -f {{ gitlab_docker_compose_remote_location }} up -d
+

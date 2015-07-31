@@ -1,0 +1,3 @@
+---
+docker_compose_version: 1.3.3
+gitlab_docker_compose_remote_location: /home/vagrant/gitlab/docker-compose.yml
