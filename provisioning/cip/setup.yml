@@ -1,0 +1,9 @@
+---
+- hosts: cip-vm
+  sudo: true
+  vars_files:
+    - vars/main.yml
+  tasks:
+    - include: basic.yml
+    - include: ../docker.yml
+    - include: gitlab.yml
