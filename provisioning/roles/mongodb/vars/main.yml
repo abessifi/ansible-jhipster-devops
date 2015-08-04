@@ -1,0 +1,4 @@
+---
+docker_api_version: 1.18
+mongodb_image_name: "mongo:3.0"
+mongodb_container_tag: "mongodb-dev"

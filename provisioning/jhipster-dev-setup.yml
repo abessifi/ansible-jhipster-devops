@@ -1,0 +1,6 @@
+---
+- hosts: jhipster-dev
+  sudo: true
+  roles:
+    - docker
+    - { role: mongodb, environment: 'dev' }

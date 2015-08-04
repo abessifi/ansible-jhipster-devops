@@ -39,7 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
 	  end
   	cfg.vm.provision :ansible do |ansible|
-	    ansible.playbook = 'provisioning/cip/setup.yml'
+	    ansible.playbook = 'provisioning/cip-setup.yml'
 	  end
   end
 
@@ -53,7 +53,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.memory = 768
 	  end
   	cfg.vm.provision :ansible do |ansible|
-      ansible.playbook = 'provisioning/jhipster-dev/setup.yml'
+	  ansible.playbook = 'provisioning/jhipster-dev-setup.yml'
     end
   end
 

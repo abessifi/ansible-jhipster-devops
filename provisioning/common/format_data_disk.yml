@@ -1,0 +1,6 @@
+---
+# Format and mount the data disk.
+- name: Create ext3 filesystem on "/dev/{{ partition }}"
+  filesystem: fstype=ext3 dev=/dev/{{ partition }}
+- name: Mount "/dev/{{ partition }}"
+  mount: name=/data src=/dev/{{ partition }} fstype=ext3 state=mounted

@@ -1,6 +1,0 @@
----
-- hosts: jhipster-dev
-  sudo: true
-  tasks:
-    - include: ../docker.yml
-    - include: mongodb-dev.yml

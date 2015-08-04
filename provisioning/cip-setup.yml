@@ -1,0 +1,8 @@
+---
+- hosts: cip-vm
+  sudo: true
+  pre_tasks:
+    - include: common/format_data_disk.yml partition=sdb
+  roles:
+    - docker
+    - gitlab

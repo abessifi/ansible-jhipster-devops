@@ -3,7 +3,7 @@
 
 - name: Deploy a mongodb container
   docker:
-    docker_api_version: 1.18
-    name: mongodb-dev
-    image: mongo:3.0
+    docker_api_version: "{{ docker_api_version }}"
+    name: "{{ mongodb_container_tag }}"
+    image: "{{ mongodb_image_name }}"
     state: started
