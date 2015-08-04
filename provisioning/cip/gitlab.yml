@@ -4,7 +4,7 @@
     - "/data/docker/gitlab/postgresql"
     - "/data/docker/gitlab/gitlab"
     - "/data/docker/gitlab/redis"
-    - "/home/vagrant/gitlab"
+    - "{{ gitlab_config_dir }}"
 
 - name: Install Docker-compose
   pip: name=docker-compose version={{ docker_compose_version }}
