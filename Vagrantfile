@@ -1,12 +1,27 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+VAGRANTFILE_API_VERSION = "2"
+
 DOMAIN = 'local'
 CIP_NODE_IP = '192.168.33.40'
 JH_DEV_NODE_IP = '192.168.33.41'
+DOCKER_REGISTRY_IP = '192.168.33.42'
 CIP_DATA_DISK = './.vagrant/machines/cip-vm/cip_data_disk.vdi'
+CIP_DATA_DISK_SIZE = 20*1024
+DOCKER_REGISTRY_DATA_DISK = './.vagrant/machines/docker-registry/registry_data_disk.vdi'
+DOCKER_REGISTRY_DATA_DISK_SIZE = 20*1024
 
-VAGRANTFILE_API_VERSION = "2"
+def create_data_disk(vbox_config, local_disk_path, disk_size)
+
+  unless File.exist?(local_disk_path)
+    # Create a disk for data storage
+    vbox_config.customize ['createhd', '--filename', local_disk_path, '--size', disk_size]
+    # Attach the created disk to the virtual machine 
+    vbox_config.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 
+                           1, '--device', 0, '--type', 'hdd', '--medium', local_disk_path]
+  end
+end
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	# Debian boxes are available in https://vagrantcloud.com/deb
@@ -30,17 +45,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.name = 'cip-vm'
       v.memory = 1536
       v.cpus = 2
-      unless File.exist?(CIP_DATA_DISK)
-		    # Create the a second 20GiB disk for data storage
-        v.customize ['createhd', '--filename', CIP_DATA_DISK, '--size', 20 * 1024]
- 	      # Attach the created disk to the virtual machine 
-		    v.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 
-                   1, '--device', 0, '--type', 'hdd', '--medium', CIP_DATA_DISK]
-      end
+      create_data_disk v, CIP_DATA_DISK, CIP_DATA_DISK_SIZE
 	  end
   	cfg.vm.provision :ansible do |ansible|
 	    ansible.playbook = 'provisioning/cip-setup.yml'
 	  end
+  end
+
+  # Setup a docker-registry virtual machine to store docker images
+  config.vm.define "docker-registry" do |cfg|
+    cfg.vm.hostname = "docker-registry.#{DOMAIN}"
+    cfg.vm.network "private_network", ip: DOCKER_REGISTRY_IP
+    cfg.hostmanager.aliases = "docker-registry"
+    cfg.vm.provider "virtualbox" do |v|
+      v.name = 'docker-registry'
+      create_data_disk v, DOCKER_REGISTRY_DATA_DISK, DOCKER_REGISTRY_DATA_DISK_SIZE
+	end
+  	cfg.vm.provision :ansible do |ansible|
+      ansible.playbook = 'provisioning/docker-registry-setup.yml'
+    end
   end
 
   # Setup a Jhipster Development environement
@@ -53,7 +76,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.memory = 768
 	  end
   	cfg.vm.provision :ansible do |ansible|
-	  ansible.playbook = 'provisioning/jhipster-dev-setup.yml'
+      ansible.playbook = 'provisioning/jhipster-dev-setup.yml'
     end
   end
 

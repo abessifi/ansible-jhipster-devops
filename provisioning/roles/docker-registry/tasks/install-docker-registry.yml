@@ -1,0 +1,56 @@
+---
+
+- name: Prepare Docker Registry Storage
+  file: path={{ docker_registry_storage_hostdir }} state=directory mode=750
+
+- name: Ensure Docker Registry is running
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    image: "{{ docker_registry_image }}"
+    memory_limit: "{{ docker_registry_memory_limit }}"
+    name: "{{ docker_registry_container_name }}"
+    ports: "{{ docker_registry_ports_mapping }}"
+    env:
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: "{{ docker_registry_storage_fs_rootdir }}"
+    volumes: "{{ docker_registry_volumes }}"
+    privileged: yes
+    state: reloaded
+    pull: "missing"
+    restart_policy: always
+
+- name: Test Docker Registry
+  uri: url={{ docker_registry_api_url }} status_code=200
+
+- name: Install Nginx web server
+  apt:
+    name: nginx={{ nginx_deb_package_version }}
+    state: present
+    default_release: jessie
+
+- name: Secure Docker Registry with Nginx and SSL
+  apt:
+    name: "{{item}}"
+    state: latest
+  with_items:
+    - python-passlib
+    - openssl
+
+- name: Create Nginx certs directory
+  file: path="{{ nginx_certs_dir }}" state=directory
+
+- name: Stat docker-registry certificate file
+  stat: path="{{ nginx_certs_dir }}/docker-registry.crt"
+  register: docker_registry_cert_stat
+
+- name: Create server key and certificate
+  include: certificate.yml
+  when: not docker_registry_cert_stat.stat.exists
+  notify: restart nginx
+
+- name: Create registry.htpasswd file
+  htpasswd: path=/etc/nginx/conf.d/docker-registry.htpasswd name={{item.name}} password={{item.password}} owner=root group=root mode=0644
+  with_items: nginx_registry_users
+
+- name: Copy the docker nginx config file
+  template: src=docker-registry-v2.j2 dest=/etc/nginx/conf.d/docker-registry.conf owner=root group=root mode=0644
+  notify: restart nginx

@@ -1,0 +1,21 @@
+---
+# jessie-backports repo is used to install Docker
+- name: Add jessie-backports repository and update apt cache
+  apt_repository:
+    repo: "deb http://ftp.us.debian.org/debian/ jessie-backports main"
+    update_cache: yes
+  tags:
+    - docker
+
+# This repo is used to install specific version of nginx
+- name: Adding Nginx APT repository key
+  apt_key: url="http://nginx.org/keys/nginx_signing.key"
+  tags:
+    - nginx
+
+- name: Add official Nginx APT repository
+  apt_repository:
+    repo: "deb http://nginx.org/packages/debian/ {{ansible_distribution_release}} nginx"
+    update_cache: yes
+  tags:
+    - nginx

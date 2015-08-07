@@ -1,0 +1,13 @@
+---
+# TODO : 
+# It would be better if the docker version is detected automatically and not hard coded.
+# This would be important if a non supported version is installed by error.
+
+- name: Fail if the docker version is not supported
+  fail: msg="docker-registry V2 didn't support Docker {{ docker_version }}"
+  when: docker_version | version_compare(1.6, '<')
+
+- name: Install Docker Registry V2
+  include: install-docker-registry.yml
+  when: docker_version | version_compare(1.6, '>=')
+

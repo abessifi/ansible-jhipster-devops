@@ -1,0 +1,12 @@
+---
+
+- hosts: docker-registry
+  sudo: true
+  vars_files:
+    - vars/main.yml
+  pre_tasks:
+    - include: common/format_data_disk.yml partition="sdb"
+    - include: common/add_apt_repo.yml tags=jessie-backports,nginx
+    - include: common/python_lib_depends.yml
+  roles:
+    - docker-registry

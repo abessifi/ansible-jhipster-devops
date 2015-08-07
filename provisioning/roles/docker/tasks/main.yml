@@ -8,13 +8,8 @@
 # between docker-py and the docker server where docker-py's default ApiVersion is different
 # than the docker server's ApiVersion. Specifying 'docker_api_version' for your task fix things.
 
-- name: Add Docker repository and update apt cache
-  apt_repository:
-    repo: "deb http://ftp.us.debian.org/debian/ jessie-backports main"
-    update_cache: yes
-
 - name: Install docker.io package
-  apt: name=docker.io={{ docker_package_version }} state=present
+  apt: name=docker.io={{ docker_deb_package_version }} state=present
 
 - name: Make sure docker is running
   service:

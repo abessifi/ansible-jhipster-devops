@@ -1,6 +1,7 @@
 ---
 - hosts: jhipster-dev
   sudo: true
+  vars_files:
+    - vars/main.yml
   roles:
-    - docker
-    - { role: mongodb, environment: 'dev' }
+    - mongodb

@@ -1,0 +1,4 @@
+---
+
+- name: Install httplib2 package
+  apt: name=python-httplib2 state=latest 

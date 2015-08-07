@@ -1,0 +1,19 @@
+---
+
+docker_registry_fqdn: "{{ ansible_fqdn }}"
+docker_registry_ip: "{{hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address']}}"
+docker_registry_storage_hostdir: "/data/docker-registry"
+docker_registry_image: "registry:2.0"
+docker_registry_memory_limit: 1024MB
+docker_registry_container_name: "registry"
+docker_registry_ports_mapping:
+  - "127.0.0.1:5000:5000"
+docker_registry_storage_fs_rootdir: "/registry"
+docker_registry_volumes:
+  - "/var/lib/docker-registry:/registry:rw"
+docker_registry_api_url: "http://localhost:5000/v2/"
+nginx_deb_package_version: "1.8.0-1~jessie"
+nginx_certs_dir: "/etc/nginx/certs"
+nginx_registry_users:
+  - name: docker
+    password: changeit
