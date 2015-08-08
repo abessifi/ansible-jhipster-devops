@@ -42,6 +42,23 @@ The registry is reachable on `https://docker-registry.local/v2/` and default cre
 	username: docker
 	password: changeit
 
+#### GitLab container
+
+GitLab is a self hosted solution which helps you to manage projects, issues, merge requests and easily browse your source code. It's a fast, secure and stable solution.
+
+The [GitLab container](https://hub.docker.com/r/sameersbn/gitlab/) will host the jhipster-sample-app application (to be used like Github) to manage source code and for the development workflow.
+
+To run the Continuous Integration Platform VM that includes Gitlab :
+
+       $ vagrant up cip-vm
+
+The GitLab container is reachable on `http://cip-vm.local:10080` and  the default username and password are :
+    
+       username: root
+       password: 5iveL!fe
+
+
+
 ## Troubleshooting
 
 If you keep using the default vagrant base box [`deb/jessie-amd64`](https://vagrantcloud.com/deb/boxes/jessie-amd64) and you see several warning messages like `Warning: Remote connection disconnect. Retrying...` when you spin up a virtual machine, try to enable the GUI of the corresponding Virtualbox VM to see what is happening.
