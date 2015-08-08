@@ -6,11 +6,11 @@ VAGRANTFILE_API_VERSION = "2"
 DOMAIN = 'local'
 CIP_NODE_IP = '192.168.33.40'
 JH_DEV_NODE_IP = '192.168.33.41'
-DOCKER_REGISTRY_IP = '192.168.33.42'
+REGISTRY_IP = '192.168.33.42'
 CIP_DATA_DISK = './.vagrant/machines/cip-vm/cip_data_disk.vdi'
 CIP_DATA_DISK_SIZE = 20*1024
-DOCKER_REGISTRY_DATA_DISK = './.vagrant/machines/docker-registry/registry_data_disk.vdi'
-DOCKER_REGISTRY_DATA_DISK_SIZE = 20*1024
+REGISTRY_DATA_DISK = './.vagrant/machines/registry/registry_data_disk.vdi'
+REGISTRY_DATA_DISK_SIZE = 20*1024
 
 def create_data_disk(vbox_config, local_disk_path, disk_size)
 
@@ -46,23 +46,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.memory = 1536
       v.cpus = 2
       create_data_disk v, CIP_DATA_DISK, CIP_DATA_DISK_SIZE
-	  end
-  	cfg.vm.provision :ansible do |ansible|
-	    ansible.playbook = 'provisioning/cip-setup.yml'
-	  end
-  end
-
-  # Setup a docker-registry virtual machine to store docker images
-  config.vm.define "docker-registry" do |cfg|
-    cfg.vm.hostname = "docker-registry.#{DOMAIN}"
-    cfg.vm.network "private_network", ip: DOCKER_REGISTRY_IP
-    cfg.hostmanager.aliases = "docker-registry"
-    cfg.vm.provider "virtualbox" do |v|
-      v.name = 'docker-registry'
-      create_data_disk v, DOCKER_REGISTRY_DATA_DISK, DOCKER_REGISTRY_DATA_DISK_SIZE
 	end
   	cfg.vm.provision :ansible do |ansible|
-      ansible.playbook = 'provisioning/docker-registry-setup.yml'
+	    ansible.playbook = 'provisioning/cip-setup.yml'
+	end
+  end
+
+  # Setup a registry virtual machine to store docker images and artifactory repos.
+  config.vm.define "registry" do |cfg|
+    cfg.vm.hostname = "registry.#{DOMAIN}"
+    cfg.vm.network "private_network", ip: REGISTRY_IP
+    cfg.hostmanager.aliases = "registry"
+    cfg.vm.provider "virtualbox" do |v|
+      v.name = 'registry'
+      create_data_disk v, REGISTRY_DATA_DISK, REGISTRY_DATA_DISK_SIZE
+	end
+  	cfg.vm.provision :ansible do |ansible|
+      ansible.playbook = 'provisioning/registry-setup.yml'
     end
   end
 
@@ -74,7 +74,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     cfg.vm.provider "virtualbox" do |v|
       v.name = 'jhipster-dev'
       v.memory = 768
-	  end
+	end
   	cfg.vm.provision :ansible do |ansible|
       ansible.playbook = 'provisioning/jhipster-dev-setup.yml'
     end

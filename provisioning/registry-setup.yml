@@ -1,6 +1,6 @@
 ---
 
-- hosts: docker-registry
+- hosts: registry
   sudo: true
   vars_files:
     - vars/main.yml

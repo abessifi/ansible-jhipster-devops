@@ -26,9 +26,11 @@ Otherwise, if you want to spin up a specific VM, just type `vagrant up <vm_name>
 #### Continuous Integration Platform
 
 
-#### Docker Registry
+#### The Registry
 
-In this lab we are using a dedicated virtual machine, `docker-registry`, to host the [Docker registry 2.0 service](https://docs.docker.com/registry/). In fact, it is a good idea to use this registry to control where your images are being stored and distribute them into your inhouse development and test workflow.
+In this lab we are using a dedicated virtual machine, `registry`, to host the [Docker registry 2.0 service](https://docs.docker.com/registry/) and [Artifactory](http://www.jfrog.com/artifactory/). In fact, it is a good idea to use this registry to control where your images/artifacts are being stored and distribute them into your inhouse development and test workflow.
+
+##### - Docker registry
 
 To spin up the docker registry service:
 
@@ -37,7 +39,7 @@ To spin up the docker registry service:
 The above command runs a VM and configures, for the first time, a Docker registry container binded to `http://localhost:5000`.
 For security reasons, the Docker Registry 2.0 is set up with username/password authentication and SSL using the official [Docker Registry image](https://registry.hub.docker.com/u/library/registry/) and a custom configured nginx as a proxy server.
 
-The registry is reachable on `https://docker-registry.local/v2/` and default credentials are :
+The registry is reachable on `https://registry.local/v2/` and default credentials are :
 
 	username: docker
 	password: changeit
