@@ -25,6 +25,20 @@ Otherwise, if you want to spin up a specific VM, just type `vagrant up <vm_name>
 
 #### Continuous Integration Platform
 
+##### - GitLab
+
+GitLab is a self hosted solution which helps you to manage projects, issues, merge requests and easily browse your source code. It's a fast, secure and stable solution.
+
+The [GitLab container](https://hub.docker.com/r/sameersbn/gitlab/) will host the [jhipster-sample-app](https://github.com/abessifi/jhipster-sample-app) application source code and will be used along the development workflow.
+
+To run the Continuous Integration Platform VM that includes Gitlab :
+
+	$ vagrant up cip-vm
+
+The GitLab container is reachable on `http://cip-vm.local:10080` and the default username/password are :
+    
+	username: root
+	password: 5iveL!fe
 
 #### The Registry
 
@@ -43,6 +57,7 @@ The registry is reachable on `https://registry.local/v2/` and default credential
 
 	username: docker
 	password: changeit
+
 
 ## Troubleshooting
 
