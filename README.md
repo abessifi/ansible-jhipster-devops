@@ -58,6 +58,33 @@ The registry is reachable on `https://registry.local/v2/` and default credential
 	username: docker
 	password: changeit
 
+To make sure everything works as expected go to the `registry` VM (where you installed the Docker registry) and pull the `busybox` image from dockerhub for test :
+
+	$ docker pull busybox:latest
+
+Docker has an unusual mechanism for specifying which registry to push to. You have to tag the image with the private registry's location in order to push to it. Let's tag the image to our private registry:
+
+	$ docker tag busybox:latest registry.local:443/busybox-basic:1.0.0
+
+Note that we are using the local name of the image first, then the tag we want to add to it. The tag is not using `https://`, just the domain, port, and image name.
+
+First, log in to the registry with Docker:
+
+	$ docker login --username=docker --password=changeit --email=foo@bar.baz https://registry.local
+
+Now we can push that image to our registry. This time we're using the tag name only:
+
+	$ docker push registry.local:443/busybox-basic:1.0.0
+
+This will take a moment to upload to the registry server. You should see output that includes Image **successfully pushed**. It may be necessary to list all of the tags under a given repository. The tags for an image repository can be retrieved with the following request:
+
+	$ curl -k "https://docker:changeit@registry.local/v2/busybox/tags/list"
+	{"name":"busybox","tags":["1.0.0"]}
+
+To test pulling the image on another machine just login to the docker registry and run:
+
+	$ docker pull registry.local:443/busybox-basic:1.0.0
+
 ## Troubleshooting
 
 If you keep using the default vagrant base box [`deb/jessie-amd64`](https://vagrantcloud.com/deb/boxes/jessie-amd64) and you see several warning messages like `Warning: Remote connection disconnect. Retrying...` when you spin up a virtual machine, try to enable the GUI of the corresponding Virtualbox VM to see what is happening.
