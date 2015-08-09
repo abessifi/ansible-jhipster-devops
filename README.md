@@ -58,7 +58,6 @@ The registry is reachable on `https://registry.local/v2/` and default credential
 	username: docker
 	password: changeit
 
-
 ## Troubleshooting
 
 If you keep using the default vagrant base box [`deb/jessie-amd64`](https://vagrantcloud.com/deb/boxes/jessie-amd64) and you see several warning messages like `Warning: Remote connection disconnect. Retrying...` when you spin up a virtual machine, try to enable the GUI of the corresponding Virtualbox VM to see what is happening.
