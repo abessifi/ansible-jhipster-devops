@@ -48,7 +48,7 @@ In this lab we are using a dedicated virtual machine, `registry`, to host the [D
 
 To spin up the docker registry service:
 
-	$ vagant up docker-registry
+	$ vagant up registry
 
 The above command runs a VM and configures, for the first time, a Docker registry container binded to `http://localhost:5000`.
 For security reasons, the Docker Registry 2.0 is set up with username/password authentication and SSL using the official [Docker Registry image](https://registry.hub.docker.com/u/library/registry/) and a custom configured nginx as a proxy server.
