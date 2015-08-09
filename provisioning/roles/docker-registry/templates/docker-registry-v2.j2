@@ -47,7 +47,7 @@ server {
 
     # To add basic authentication to v2 use auth_basic setting plus add_header
     auth_basic "Restricted access to Docker Registry";
-    auth_basic_user_file /etc/nginx/conf.d/docker-registry.htpasswd;
+    auth_basic_user_file /etc/nginx/auth/docker-registry.htpasswd;
 
   }
 

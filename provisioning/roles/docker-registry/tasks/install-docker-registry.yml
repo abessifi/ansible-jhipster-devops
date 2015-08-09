@@ -36,7 +36,10 @@
     - openssl
 
 - name: Create Nginx certs directory
-  file: path="{{ nginx_certs_dir }}" state=directory
+  file: path="{{ item }}" state=directory
+  with_items:
+    - "{{ nginx_certs_dir }}"
+    - "/etc/nginx/auth"
 
 - name: Stat docker-registry certificate file
   stat: path="{{ nginx_certs_dir }}/docker-registry.crt"
@@ -48,7 +51,7 @@
   notify: restart nginx
 
 - name: Create registry.htpasswd file
-  htpasswd: path=/etc/nginx/conf.d/docker-registry.htpasswd name={{item.name}} password={{item.password}} owner=root group=root mode=0644
+  htpasswd: path=/etc/nginx/auth/docker-registry.htpasswd name={{item.name}} password={{item.password}} owner=root group=root mode=0644
   with_items: nginx_registry_users
 
 - name: Copy the docker nginx config file

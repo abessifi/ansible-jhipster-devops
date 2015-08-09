@@ -8,7 +8,7 @@ docker_registry_ports_mapping:
   - "127.0.0.1:5000:5000"
 docker_registry_storage_fs_rootdir: "/registry"
 docker_registry_volumes:
-  - "/var/lib/docker-registry:/registry:rw"
+  - "/data/docker-registry:/registry:rw"
 docker_registry_api_url: "http://localhost:5000/v2/"
 nginx_deb_package_version: "1.8.0-1~jessie"
 nginx_certs_dir: "/etc/nginx/certs"
