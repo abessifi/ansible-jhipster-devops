@@ -10,7 +10,7 @@
   sudo: no
 
 - name: Create server key and certificate
-  local_action: shell /bin/bash --login -c 'openssl req -new -nodes -x509 -subj "/C=/ST=/L=/O=/CN={{docker_registry_fqdn}}/subjectAltName=IP:{{docker_registry_ip}}" -days 3650 -keyout ./ssl/docker-registry.key -out ./ssl/docker-registry.crt -extensions v3_ca'
+  local_action: shell /bin/bash --login -c 'openssl req -new -nodes -x509 -subj "/C=/ST=/L=/O=/CN={{registry_fqdn}}/subjectAltName=IP:{{registry_ip}}" -days 3650 -keyout ./ssl/docker-registry.key -out ./ssl/docker-registry.crt -extensions v3_ca'
   sudo: no
   when: not local_certificate.stat.exists
 
@@ -21,14 +21,14 @@
     - docker-registry.crt
 
 - name: Copy the certificate to the shared ca-certificates directory
-  copy: src=./ssl/docker-registry.crt dest=/usr/local/share/ca-certificates/{{docker_registry_fqdn}}.crt
+  copy: src=./ssl/docker-registry.crt dest=/usr/local/share/ca-certificates/{{registry_fqdn}}.crt
 
 - name: Update ca-certificates list
   shell: update-ca-certificates
 
 - name: Create a directory to hold the cert on Docker
-  file: path=/etc/docker/certs.d/{{docker_registry_fqdn}} state=directory
+  file: path=/etc/docker/certs.d/{{registry_fqdn}} state=directory
 
 - name: Copy the certificate to Docker config
-  copy: src=./ssl/docker-registry.crt dest=/etc/docker/certs.d/{{docker_registry_fqdn}}/ca.crt
+  copy: src=./ssl/docker-registry.crt dest=/etc/docker/certs.d/{{registry_fqdn}}/ca.crt
   notify: restart docker

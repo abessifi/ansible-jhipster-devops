@@ -1,7 +1,5 @@
 ---
 
-docker_registry_fqdn: "{{ ansible_fqdn }}"
-docker_registry_ip: "{{hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address']}}"
 docker_registry_storage_hostdir: "/data/docker-registry"
 docker_registry_image: "registry:2.0"
 docker_registry_memory_limit: 1024MB
