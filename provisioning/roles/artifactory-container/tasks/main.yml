@@ -1,0 +1,9 @@
+---
+
+- name: Deploy Artifactory container
+  docker:
+    docker_api_version: "{{ docker_api_version  }}"
+    name: "{{ artifactory_container_name }}"
+    image: "{{ artifactory_image_name }}"
+    ports: "{{ artifactory_ports_mapping }}"
+    state: started 
