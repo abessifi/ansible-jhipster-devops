@@ -1,5 +1,6 @@
 ---
 artifactory_image_name: "mattgruter/artifactory:3.9.2"
 artifactory_container_name: "artifactory"
-artifactory_ports_mapping: "192.168.33.42:8080:8080"
+artifactory_ports_mapping:
+  - "192.168.33.42:8080:8080"
 
