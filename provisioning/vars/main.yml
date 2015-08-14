@@ -4,3 +4,13 @@ docker_version: 1.6.2
 docker_api_version: 1.18
 registry_fqdn: "{{ ansible_fqdn }}"
 registry_ip: "{{hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address']}}"
+registry_users:
+  - name: docker
+    password: changeit
+docker_images_from_dockerhub:
+  - registry:2.0
+  - mattgruter/artifactory:3.9.2
+  - sameersbn/postgresql:9.4
+  - sameersbn/gitlab:7.13.1
+  - sameersbn/redis:latest
+  - mongo:3.0

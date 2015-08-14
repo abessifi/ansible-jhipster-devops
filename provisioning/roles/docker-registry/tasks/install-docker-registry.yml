@@ -52,7 +52,7 @@
 
 - name: Create registry.htpasswd file
   htpasswd: path=/etc/nginx/auth/docker-registry.htpasswd name={{item.name}} password={{item.password}} owner=root group=root mode=0644
-  with_items: nginx_registry_users
+  with_items: "{{ registry_users }}"
 
 - name: Copy the docker nginx config file
   template: src=docker-registry-v2.j2 dest=/etc/nginx/conf.d/docker-registry.conf owner=root group=root mode=0644
