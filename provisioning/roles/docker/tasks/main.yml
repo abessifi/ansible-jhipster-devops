@@ -16,6 +16,11 @@
     name: docker
     state: started
 
+- name: Copy the default Docker configuration
+  template: src=docker.default dest=/etc/default/docker owner=root group=root mode=0644
+  notify: restart docker
+  when: daemon_start_options != ""
+
 # You can add users to the docker group to allow them to manage docker containers.
 - name: Add vagrant user to docker group
   user: name=vagrant groups=docker append=yes

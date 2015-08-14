@@ -1,8 +1,5 @@
 ---
 
-- name: restart docker
-  service: name=docker state=restarted
-
 - name: restart docker-registry
   service: name=docker-registry state=restarted
 

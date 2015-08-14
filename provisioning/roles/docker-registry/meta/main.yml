@@ -1,4 +1,4 @@
 ---
 
 dependencies:
-  - docker
+  - { role: docker, daemon_start_options: "-H tcp://0.0.0.0:{{ docker_http_server_port }}" }
