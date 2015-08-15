@@ -78,8 +78,8 @@ Now we can push that image to our registry. This time we're using the tag name o
 
 This will take a moment to upload to the registry server. You should see output that includes Image **successfully pushed**. It may be necessary to list all of the tags under a given repository. The tags for an image repository can be retrieved with the following request:
 
-	$ curl -k "https://docker:changeit@registry.local/v2/busybox/tags/list"
-	{"name":"busybox","tags":["1.0.0"]}
+	$ curl -k "https://docker:changeit@registry.local/v2/busybox-basic/tags/list"
+	{"name":"busybox-basic","tags":["1.0.0"]}
 
 To test pulling the image on another machine just login to the docker registry and run:
 
