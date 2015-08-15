@@ -1,0 +1,17 @@
+---
+
+# Update Docker Registry content (images).
+- name: Check if image "{{ image_name }}" is already pushed
+  uri:
+    # check image tag existance by requesting the corresponding url /v2/<image>/tags/list. 
+    url: "https://registry.local/v2/{{ image_name }}/tags/list"
+    user: docker
+    password: changeit
+    force_basic_auth: yes
+    status_code: 200
+  ignore_errors: true
+  register: result
+
+- name: Pull and push "{{ image_name }}"
+  shell: /bin/true
+  when:  result.status == 404 or '3.9.2' not in result.json.tags

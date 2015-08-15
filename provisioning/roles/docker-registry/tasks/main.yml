@@ -11,3 +11,6 @@
   include: install-docker-registry.yml
   when: docker_version | version_compare(1.6, '>=')
 
+- name: Update Docker registry repository
+  include: update_docker_registry.yml
+  when: sync_images

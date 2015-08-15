@@ -9,5 +9,5 @@
     - include: common/add_apt_repo.yml tags=jessie-backports,nginx
     - include: common/python_lib_depends.yml
   roles:
-    - docker-registry
+    - { role: docker-registry, sync_images: true }
     - artifactory

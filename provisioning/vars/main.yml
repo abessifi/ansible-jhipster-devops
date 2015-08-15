@@ -2,6 +2,7 @@
 
 docker_version: 1.6.2
 docker_api_version: 1.18
+docker_http_server_port: 5555
 registry_fqdn: "{{ ansible_fqdn }}"
 registry_ip: "{{hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address']}}"
 registry_users:

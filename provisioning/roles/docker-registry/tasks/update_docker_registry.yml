@@ -1,0 +1,23 @@
+---
+
+# Can't run the following task multiple times (for each docker image)
+# using include with with_items statement:
+# http://stackoverflow.com/questions/30785281/one-loop-over-multiple-ansible-tasks
+# We've create an action plugin for that.
+
+- name: Install pip in local host
+  local_action: shell easy_install pip
+
+- name: Install docker-py in local host
+  local_action: pip name=docker-py version={{ docker_py_version }}
+
+- name: Update Docker registry repository
+  action: update_registry >
+    docker_image="{{item}}"
+    registry_fqdn="{{registry_fqdn}}"
+    docker_server_version="{{ docker_api_version }}"
+    docker_http_server_port="{{ docker_http_server_port }}"
+    username="{{ registry_users.0.name }}"
+    password="{{ registry_users.0.password }}"
+  with_items: "{{ docker_images_from_dockerhub }}"
+  when: sync_images

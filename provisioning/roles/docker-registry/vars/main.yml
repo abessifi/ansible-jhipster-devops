@@ -12,3 +12,4 @@ docker_registry_volumes:
 docker_registry_api_url: "http://localhost:5000/v2/"
 nginx_deb_package_version: "1.8.0-1~jessie"
 nginx_certs_dir: "/etc/nginx/certs"
+sync_images: false
