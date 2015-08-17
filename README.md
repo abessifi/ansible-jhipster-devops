@@ -85,6 +85,10 @@ To test pulling the image on another machine just login to the docker registry a
 
 	$ docker pull registry.local:443/busybox-basic:1.0.0
 
+The private docker registry could also be used to store and serve all docker images automatically as of the first run of Ansible. This may be usefull to rapidly pull docker images  and use them for further deployments. To do so, set the `docker_images_from_dockerhub` parameter, in provisioning/vars/main.yml file, with the docker images you'll use and then set the `sync_images` to true within the registry-setup.yml playbook :
+
+	{ role: docker-registry, sync_images: true }
+
 ## Troubleshooting
 
 If you keep using the default vagrant base box [`deb/jessie-amd64`](https://vagrantcloud.com/deb/boxes/jessie-amd64) and you see several warning messages like `Warning: Remote connection disconnect. Retrying...` when you spin up a virtual machine, try to enable the GUI of the corresponding Virtualbox VM to see what is happening.
