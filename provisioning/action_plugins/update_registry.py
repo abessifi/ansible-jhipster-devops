@@ -102,7 +102,8 @@ class ActionModule(object):
                 # Remove the tagged image
                 client.remove_image("{}:{}".format(new_image_name, docker_image_version))
                 # Remove the base image from the local Docker repository
-                client.remove_image(docker_image)
+                if docker_image_name != 'registry':
+                    client.remove_image(docker_image)
                 synced = True
             except (APIError, NotFound) as error:
                 print error.explanation
