@@ -1,5 +1,5 @@
 ---
-artifactory_image_name: "mattgruter/artifactory:3.9.2"
+artifactory_image_name: "{{ docker_registry_host }}/artifactory:3.9.2"
 artifactory_container_name: "artifactory"
 artifactory_ports_mapping:
   - "{{ registry_ip }}:8080:8080"

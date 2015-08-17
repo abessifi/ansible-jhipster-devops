@@ -8,6 +8,7 @@ registry_ip: "{{hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address']}
 registry_users:
   - name: docker
     password: changeit
+    email: foo@bar.baz
 docker_images_from_dockerhub:
   - registry:2.0
   - mattgruter/artifactory:3.9.2
@@ -15,3 +16,4 @@ docker_images_from_dockerhub:
   - sameersbn/gitlab:7.13.1
   - sameersbn/redis:latest
   - mongo:3.0
+docker_registry_host: "{{ registry_fqdn }}:443"

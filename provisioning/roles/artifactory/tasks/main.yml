@@ -3,6 +3,10 @@
 - name: Deploy Artifactory container
   docker:
     docker_api_version: "{{ docker_api_version  }}"
+    registry: "{{ docker_registry_host }}"
+    username: "{{ registry_users.0.name }}"
+    password: "{{ registry_users.0.password }}"
+    email: "{{ registry_users.0.email }}"
     name: "{{ artifactory_container_name }}"
     image: "{{ artifactory_image_name }}"
     ports: "{{ artifactory_ports_mapping }}"
