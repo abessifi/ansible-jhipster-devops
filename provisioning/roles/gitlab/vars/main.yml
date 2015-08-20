@@ -2,3 +2,6 @@
 docker_compose_version: 1.3.3
 gitlab_config_dir: /home/vagrant/gitlab
 gitlab_docker_compose_remote_location: "{{ gitlab_config_dir }}/docker-compose.yml"
+gitlab_image_name: "{{ docker_registry_host }}/gitlab:7.13.1"
+postgresql_image_name: "{{ docker_registry_host }}/postgresql:9.4"
+redis_image_name: "{{ docker_registry_host }}/redis:latest"

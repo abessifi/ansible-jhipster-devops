@@ -1,3 +1,15 @@
+---
+
+# Docker Compose seems to not support pulling images from a private registry.
+# In this playbook we added two tasks to login to docker registry and pull images from
+# in order that docker-compose tool can run gitlab containers.
+
+- name: Copy the docker certificate to the shared ca-certificates directory
+  copy: src=./ssl/docker-registry.crt dest=/usr/local/share/ca-certificates/{{registry_fqdn}}.crt
+
+- name: Update ca-certificates list
+  shell: update-ca-certificates
+
 - name: Create necessary directories
   file: path={{ item }} owner=vagrant group=vagrant state=directory
   with_items:
@@ -10,7 +22,17 @@
   pip: name=docker-compose version={{ docker_compose_version }}
 
 - name: Copy the docker-compose.yml file
-  copy: src=docker-compose.yml dest={{ gitlab_docker_compose_remote_location }} owner=vagrant group=vagrant
+  template: src=docker-compose.yml dest={{ gitlab_docker_compose_remote_location }} owner=vagrant group=vagrant
+
+- name: Login to the private registry
+  shell: docker login --username=docker --password=changeit --email=foo@bar.baz registry.local:443
+
+- name: Pull gitlab image
+  shell: docker pull {{ item }}
+  with_items:
+    - "{{ postgresql_image_name }}"
+    - "{{ gitlab_image_name }}"
+    - "{{ redis_image_name }}"
 
 - name: Deploy GitLab containers using docker-compose
   shell: docker-compose -f {{ gitlab_docker_compose_remote_location }} up -d
