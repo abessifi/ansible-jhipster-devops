@@ -36,9 +36,21 @@ To run the Continuous Integration Platform VM that includes Gitlab :
 	$ vagrant up cip-vm
 
 The GitLab container is reachable on `http://cip-vm.local:10080` and the default username/password are :
-    
+
 	username: root
 	password: 5iveL!fe
+
+##### - Jenkins
+
+Jenkins is a [`CI tool`](http://jenkins-ci.org/) we've used in other projects before and we feel comfortable with it since it is mature, widely used and provides great flexibility through its plugin system. Jenkins has very good Github integration which is another plus for us. It is quite simple to set up so that every push in a branch will trigger a build of the project. In the context of this project, we used Ansible to run a Jenkins instance inside a docker container that will handle all project's CI steps against different environments:
+
+- Checkout, for each new push, the application source code from `gitlab`.
+- Build the project (run all tests).
+- Build and tag a docker image of the app.
+- Push the image to the private docker registry.
+- Deploy the docker image in a staging environment.
+
+After you "vagrant up" the cip-vm, Jenkins service is reachable on `http://cip-vm.local:8080`.
 
 #### The Registry
 
