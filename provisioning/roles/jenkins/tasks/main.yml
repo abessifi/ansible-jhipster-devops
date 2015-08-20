@@ -1,0 +1,13 @@
+---
+
+- name: Deploy Jenkins CI container
+  docker:
+    docker_api_version: "{{ docker_api_version  }}"
+    registry: "{{ docker_registry_host }}"
+    username: "{{ registry_users.0.name }}"
+    password: "{{ registry_users.0.password }}"
+    email: "{{ registry_users.0.email }}"
+    name: "{{ jenkins_container_name }}"
+    image: "{{ jenkins_image_name }}"
+    ports: "{{ jenkins_ports_mapping }}"
+    state: started

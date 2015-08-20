@@ -1,4 +1,5 @@
 ---
+
 - hosts: cip-vm
   sudo: true
   vars_files:
@@ -8,3 +9,4 @@
     - include: common/add_apt_repo.yml tags=jessie-backports
   roles:
     - gitlab
+    - jenkins

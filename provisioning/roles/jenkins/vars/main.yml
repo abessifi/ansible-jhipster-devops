@@ -1,0 +1,7 @@
+---
+
+jenkins_image_name: "{{ docker_registry_host }}/jenkins:1.609.2"
+jenkins_container_name: "jenkins"
+jenkins_ports_mapping:
+  - "{{ host_ip_address }}:8080:8080"
+
